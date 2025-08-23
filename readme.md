@@ -31,6 +31,7 @@ Ikuti langkah-langkah berikut untuk menyiapkan dan menjalankan proyek di mesin M
 ---
 
 ## 📂 Struktur Proyek
+<pre>
 yolov5_project/
 ├── dataset/             # Tempat menyimpan dataset (gambar dan label)
 │ ├── images/
@@ -39,9 +40,9 @@ yolov5_project/
 ├── train_yolo.py        # Skrip untuk melatih model
 ├── requirements.txt     # Daftar dependensi Python
 └── setup.sh             # Skrip instalasi otomatis
-
+</pre>
 Pastikan struktur folder dataset Anda sesuai dengan format YOLOv5. Contohnya seperti di bawah ini:
-
+<pre>
 dataset/
 ├── images/
 │ ├── train/       # Gambar untuk training
@@ -49,7 +50,7 @@ dataset/
 └── labels/
 ├── train/       # File .txt untuk label training
 └── val/         # File .txt untuk label validasi
-
+</pre>
 ---
 
 ## 🧠 Training dan Inferensi
