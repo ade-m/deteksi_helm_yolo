@@ -17,8 +17,8 @@ import os
 # │   ├── train/
 # │   └── val/
 # └── labels/
-# yaml_path = "dataset/coco128.yaml"
-yaml_path = "dataset/coco128.yaml"
+# yaml_path = "dataset/rider_helmet.yaml"
+yaml_path = "dataset/rider_helmet.yaml"
 
 # 4. Load pretrained YOLOv5 model
 model = YOLO("yolov5s.pt")  # pastikan file yolov5s.pt ada di folder kerja atau download dari https://github.com/ultralytics/yolov5/releases
