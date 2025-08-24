@@ -13,18 +13,18 @@ model = YOLO(model_path)
 cap = cv2.VideoCapture(0)
 
 if not cap.isOpened():
-    print("❌ Tidak bisa membuka webcam")
+    print("Tidak bisa membuka webcam")
     exit()
 
 # 3. Loop untuk baca frame webcam
 while True:
     ret, frame = cap.read()
     if not ret:
-        print("❌ Gagal membaca frame dari webcam")
+        print("Gagal membaca frame dari webcam")
         break
 
     # 4. Inference dengan YOLO
-    results = model.predict(source=frame, conf=0.5, verbose=False)
+    results = model.predict(source=frame, conf=0.7, verbose=False)
 
     # 5. Ambil frame hasil dengan bounding box
     annotated_frame = results[0].plot()
