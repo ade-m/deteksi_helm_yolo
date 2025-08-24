@@ -38,9 +38,9 @@ metrics = model.val()
 print(metrics)
 
 # 7. Export model
-model.save('yolov5_helmet_train42.pt')  # langsung simpan
+model.save('yolov5_results/yolov5_helmet_train42.pt')  # langsung simpan
 #model.export(format="pt")
-print("Model tersimpan di folder yolov5_results/yolov5_helmet_train/weights")
+#print("Model tersimpan di folder yolov5_results/yolov5_helmet_train/weights")
 
 # 8. Inference contoh
 val_image = "dataset/images/val/sample.jpg"  # ganti sesuai file gambar lokal
