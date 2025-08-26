@@ -3,4 +3,4 @@ val: val/images
 
 nc: 4
 
-names: ["with helmet", "without helmet", "rider", "number plate"]
+names: ["Menggunakan Helm", "Tidak Menggunakan Helm", "Pengendara Motor", "Plat Nomor"]

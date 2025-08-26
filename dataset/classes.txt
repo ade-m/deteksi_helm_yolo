@@ -1,4 +1,4 @@
-with helmet
-without helmet
-rider
-number plate
+Menggunakan Helm
+Tidak Menggunakan Helm
+Pengendara Motor
+Plat Nomor
