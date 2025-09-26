@@ -1,48 +1,60 @@
 # ===============================
-# YOLOv5 Training - Lokal Komputer
+# YOLOv8s Training - Lokal Komputer (CPU)
 # ===============================
 
-# 1. Install YOLOv5 (ultralytics) jika belum
-# Buka terminal/cmd, jalankan:
-# pip install ultralytics --upgrade
-
-# 2. Import library
-from ultralytics import YOLO
 import os
+from collections import Counter
+from ultralytics import YOLO
 
-# 3. Tentukan path dataset dan yaml
-# Contoh struktur folder lokal:
-# dataset/
-# ├── images/
-# │   ├── train/
-# │   └── val/
-# └── labels/
-# yaml_path = "dataset/rider_helmet.yaml"
+# 1. Cek distribusi data per class
+label_dir = "dataset/train/labels"
+class_names = ["with helmet", "without helmet", "rider", "number plate"]
+
+if not os.path.exists(label_dir):
+    print(f"❌ Folder label tidak ditemukan: {label_dir}")
+    exit()
+
+class_counts = Counter()
+for filename in os.listdir(label_dir):
+    if filename.endswith(".txt"):
+        with open(os.path.join(label_dir, filename), "r") as f:
+            for line in f:
+                class_id = line.strip().split()[0]
+                class_counts[int(class_id)] += 1
+
+total_annotations = sum(class_counts.values())
+print("\n📊 Distribusi Anotasi per Class:")
+for class_id, count in sorted(class_counts.items()):
+    percentage = (count / total_annotations) * 100
+    print(f"- {class_names[class_id]} (class {class_id}): {count} anotasi ({percentage:.2f}%)")
+print(f"\n🔢 Total semua anotasi: {total_annotations}")
+
+# 2. Path ke YAML dataset
 yaml_path = "dataset/rider_helmet.yaml"
 
-# 4. Load pretrained YOLOv5 model
-model = YOLO("yolov5s.pt")  # pastikan file yolov5s.pt ada di folder kerja atau download dari https://github.com/ultralytics/yolov5/releases
+# 3. Load model YOLOv8s
+model = YOLO("yolov8s.pt")  # pastikan file ini ada di folder kerja
 
-# 5. Train model
+# 4. Training di CPU
 results = model.train(
     data=yaml_path,
     epochs=50,
     imgsz=640,
-    batch=16,
-    name="yolov5_helmet_train",
-    project="yolov5_results"  # akan membuat folder di direktori kerja lokal
+    batch=8,               # lebih ringan untuk Yoga 7i
+    device='cpu',          # pakai CPU karena tidak ada CUDA
+    name="yolov8s_helmet_train",
+    project="yolov8_results"
 )
 
-# 6. Evaluasi hasil training
+# 5. Evaluasi hasil training
 metrics = model.val()
+print("\n📈 Hasil Evaluasi:")
 print(metrics)
 
-# 7. Export model
-model.save('yolov5_results/yolov5_helmet_train42.pt')  # langsung simpan
-#model.export(format="pt")
-#print("Model tersimpan di folder yolov5_results/yolov5_helmet_train/weights")
+# 6. Simpan model hasil training
+model.save("yolov8_results/yolov8s_helmet_final.pt")
 
-# 8. Inference contoh
-val_image = "dataset/images/val/sample.jpg"  # ganti sesuai file gambar lokal
-results = model.predict(val_image)
-results.show()  # menampilkan bounding box di gambar
+# 7. Inference contoh gambar
+val_image = "dataset/images/val/sample.jpg"
+results = model.predict(val_image, conf=0.4, device='cpu')
+results.show()
